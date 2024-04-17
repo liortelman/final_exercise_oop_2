@@ -1,7 +1,5 @@
 public class Main {
     public static void main(String[] args) {
-        // Create instances of your classes and test your code here
-
         // Create a course registration system
         CourseRegistrationSystem registrationSystem = CourseRegistrationSystem.getInstance();
 
@@ -14,9 +12,10 @@ public class Main {
         registrationSystem.addUser(bob);
 
         // Create some courses
-        Course mathCourse = new CompulsoryCourse("Mathematics", 101, 30);
-        Course physicsCourse = new ElectiveCourse("Physics", 201, 20);
-        Course literatureCourse = new SeminarCourse("Literature", 301, 25);
+        CourseFactory factory = new ConcreteCourseFactory();
+        Course mathCourse = factory.createCourse("Mathematics", 101, 30, UpdateType.COMPULSORY_COURSE);
+        Course physicsCourse = factory.createCourse("Physics", 201, 20, UpdateType.ELECTIVE_COURSE);
+        Course literatureCourse = factory.createCourse("Literature", 301, 25, UpdateType.SEMINAR_COURSE);
 
         // Add courses to the system
         registrationSystem.addCourse(mathCourse);

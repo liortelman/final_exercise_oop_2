@@ -83,6 +83,4 @@ class CourseRegistrationSystem {
     public List<Course> getAllCourses() {
         return this.courses;
     }
-
-    // Additional methods for managing courses and users
 }

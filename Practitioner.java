@@ -1,4 +1,3 @@
-// Concrete subclasses of User
 class Practitioner extends User {
 
     private CourseRegistrationSystem registrationSystem;
@@ -13,20 +12,9 @@ class Practitioner extends User {
         if (isLoggedIn()) {
             // Check if a course with the same name and number already exists
             if (!registrationSystem.isCourseExists(name, id)) {
-                switch (updateType) {
-                    case SEMINAR_COURSE:
-                        Course s_course = new SeminarCourse(name, id, maxStudents);
-                        registrationSystem.addCourse(s_course);
-                        break;
-                    case ELECTIVE_COURSE:
-                        Course e_course = new ElectiveCourse(name, id, maxStudents);
-                        registrationSystem.addCourse(e_course);
-                        break;
-                    case COMPULSORY_COURSE:
-                        Course c_course = new CompulsoryCourse(name, id, maxStudents);
-                        registrationSystem.addCourse(c_course);
-                        break;
-                }
+                CourseFactory factory = new ConcreteCourseFactory(); // Create a concrete course factory
+                Course newCourse = factory.createCourse(name, id, maxStudents, updateType); // Create the course using the factory
+                registrationSystem.addCourse(newCourse); // Add the course to the system
             } else {
                 System.out.println("Course with the same name and number already exists.");
             }
@@ -34,5 +22,4 @@ class Practitioner extends User {
             System.out.println("User is not logged in.");
         }
     }
-    // Additional properties and methods specific to Practitioner
 }
