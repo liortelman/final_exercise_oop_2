@@ -5,8 +5,8 @@ class Student extends User {
     private ShoppingCart shoppingCart;
     private List<Course> courses;
 
-    public Student(String name, int id, boolean loggedIn) {
-        super(name, id, loggedIn);
+    public Student(String name, int id, boolean loggedIn, String password) {
+        super(name, id, loggedIn, password);
         this.shoppingCart = new ShoppingCart(this);
         this.courses = new ArrayList<>();
     }
