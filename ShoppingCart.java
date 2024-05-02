@@ -17,7 +17,7 @@ class ShoppingCart {
 
     public void addCourse(Course course) {
         // Check if there is space available in the course
-        if (!course.isFull()) {
+        if (!(course.isFull())) {
             // Check if the course is already in the cart
             if (!(coursesCart.contains(course))) {
                 coursesCart.add(course);
@@ -26,10 +26,14 @@ class ShoppingCart {
             }
         } else {
             Scanner scanner = new Scanner(System.in);
-            System.out.println("This course is full. If you would like to be notified when a space becomes available, please enter 1");
+            System.out.println("This course is full. If you would like to be notified when a space becomes available, please enter 1, otherwise enter 0:");
             int alart = scanner.nextInt();
             if (alart == 1) {
                 course.addStudentToWaitingList(currentUser); // Add student to waiting list so that he will receive a notification if a place becomes available
+                System.out.println("Added to waiting list successfully");
+            }
+            else {
+                System.out.println("Has not added to waiting list");
             }
         }
     }
@@ -45,8 +49,12 @@ class ShoppingCart {
 
     public void checkout(){
         for (Course course: coursesCart){
-            course.addStudent(currentUser);
-            currentUser.addCourseToList(course);
+            if (!course.isFull()){
+                course.removeStudentFromWaitingList(currentUser); // Remove student from waiting list to prevent receiving notifications
+                course.addStudent(currentUser);
+                currentUser.addCourseToList(course);
+            }
+            else System.out.println("Cannot add student to course " +course.name+ ", This course is full.");
         }
         coursesCart.clear(); // Empty the shopping cart after checkout
     }

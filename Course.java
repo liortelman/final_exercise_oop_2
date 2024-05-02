@@ -65,13 +65,9 @@ abstract class Course {
 
     // This method adds a student to the course if there is space available
     public void addStudent(User user){
-        if (!isFull()) {
             registers.add(user);
             currentRegisters++;
             notifyObservers();
-        } else {
-            throw new IllegalStateException("Cannot add student. Course is full.");
-        }
     }
 
     // This method removes a student from the course
@@ -98,6 +94,15 @@ abstract class Course {
         waitingList.add(currentUser);
     }
 
+    // This method removes a student from the waiting list
+    public void removeStudentFromWaitingList(Student currentUser) {
+        waitingList.remove(currentUser);
+    }
+
+    public List<User> getWaitingList() {
+        return waitingList;
+    }
+
     // This method generates a string containing information about the registered students for the course
     public String getRegisteredStudentsInfo() {
         StringBuilder sb = new StringBuilder();
@@ -113,4 +118,7 @@ abstract class Course {
     public String toString() {
         return getCourseType() + " Course: " + name + ", courseNumber=" + courseNumber;
     }
+
+
+
 }

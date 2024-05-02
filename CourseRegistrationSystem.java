@@ -5,7 +5,6 @@
 import java.util.ArrayList;
 import java.util.List;
 
-// Singleton class representing the course registration system
 class CourseRegistrationSystem {
     private static CourseRegistrationSystem instance;
     private static final int MAX_ACTIVE_USERS = 100;
@@ -56,7 +55,6 @@ class CourseRegistrationSystem {
     // Method to add new course - for lecturers or practitioners
     public void addCourse(Course course){
         courses.add(course); // Update the course list in the registration system
-
     }
 
     // Method to remove a course - for lecturers or practitioners

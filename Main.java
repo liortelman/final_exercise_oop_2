@@ -3,73 +3,77 @@ public class Main {
         // Create a course registration system
         CourseRegistrationSystem registrationSystem = CourseRegistrationSystem.getInstance();
 
-        // Create some students with passwords
+        // Create new students with passwords
         Student alice = new Student("Alice", 1, true, "alice123");
         Student bob = new Student("Bob", 2, true, "bob456");
+        Student lior = new Student("Lior", 3, true, "lior789");
+        Student oriya = new Student("Oriya", 4, true, "oriya012");
 
         // Add students to the system
         registrationSystem.addUser(alice);
         registrationSystem.addUser(bob);
+        registrationSystem.addUser(lior);
+        registrationSystem.addUser(oriya);
 
-        // Create some lecturers and practitioners
-        Lecturer or = new Lecturer("Or", 3, true, "or789", registrationSystem);
-        Lecturer liat = new Lecturer("Liat", 4, true, "liat012", registrationSystem);
-        Practitioner david = new Practitioner("David", 4, true, "david012", registrationSystem);
+        // Create new lecturers and practitioners
+        Lecturer or = new Lecturer("Or", 5, true, "or789", registrationSystem);
+        Lecturer liat = new Lecturer("Liat", 6, true, "liat012", registrationSystem);
+        Practitioner david = new Practitioner("David", 7, true, "david012", registrationSystem);
 
         // Add lecturers and practitioners to the system
         registrationSystem.addUser(or);
         registrationSystem.addUser(liat);
         registrationSystem.addUser(david);
 
-        // Create some courses
+        // Create new courses
         CourseFactory factory = new ConcreteCourseFactory();
         Course mathCourse = factory.createCourse("Mathematics", 101, 30, UpdateType.COMPULSORY_COURSE);
-        Course physicsCourse = factory.createCourse("Physics", 201, 20, UpdateType.ELECTIVE_COURSE);
+        Course physicsCourse = factory.createCourse("Physics", 201, 3, UpdateType.ELECTIVE_COURSE);
         Course literatureCourse = factory.createCourse("Literature", 301, 25, UpdateType.SEMINAR_COURSE);
+        Course chemistryCourse = factory.createCourse("Chemistry", 401, 15, UpdateType.ELECTIVE_COURSE);
+        Course programmingCourse = factory.createCourse("Programming", 501, 25, UpdateType.COMPULSORY_COURSE);
 
         // Add courses to the system
         registrationSystem.addCourse(mathCourse);
         registrationSystem.addCourse(physicsCourse);
         registrationSystem.addCourse(literatureCourse);
+        registrationSystem.addCourse(chemistryCourse);
+        registrationSystem.addCourse(programmingCourse);
 
-        // Add course observers (students) to courses
-        registrationSystem.registerObserverToCourse(new StudentObserver(), mathCourse);
-        registrationSystem.registerObserverToCourse(new StudentObserver(), physicsCourse);
-        registrationSystem.registerObserverToCourse(new StudentObserver(), literatureCourse);
-
-        // Student Alice adds courses to their cart
+        // Add students to courses
         alice.addToCart(mathCourse);
-        alice.addToCart(physicsCourse);
-
-        // Student Bob adds courses to their cart
+        alice.addToCart(chemistryCourse);
         bob.addToCart(physicsCourse);
         bob.addToCart(literatureCourse);
+        lior.addToCart(physicsCourse);
+        lior.addToCart(literatureCourse);
+        oriya.addToCart(physicsCourse);
 
-        // Student Alice checks out their courses
+        // Checkout courses for students
         alice.getShoppingCart().checkout();
-
-        // Student Bob checks out their courses
         bob.getShoppingCart().checkout();
+        lior.getShoppingCart().checkout();
+        oriya.getShoppingCart().checkout();
 
-        // Lecturer Or adds a new course
+
+        // Add new courses by lecturers and practitioner
         or.addNewCourse("OOP_a", 401, 40, UpdateType.COMPULSORY_COURSE);
+        liat.addNewCourse("OOP_b", 402, 41, UpdateType.COMPULSORY_COURSE);
+        david.addNewCourse("OOP_c", 403, 20, UpdateType.ELECTIVE_COURSE);
 
-        // Lecturer Or adds a new course
-        or.addNewCourse("OOP_b", 401, 41, UpdateType.COMPULSORY_COURSE);
-
-        // Practitioner David adds a new course
-        david.addNewCourse("Programming", 501, 20, UpdateType.ELECTIVE_COURSE);
 
         // Display the courses enrolled by each student
+        System.out.println("\n");
         System.out.println("Courses enrolled by Alice:\n" + alice.getCourses());
         System.out.println("Courses enrolled by Bob:\n" + bob.getCourses());
 
         // Display the registered students for each course
+        System.out.println("\n");
         System.out.println("Registered students for Mathematics:\n" + mathCourse.getRegisteredStudentsInfo());
         System.out.println("Registered students for Physics:\n" + physicsCourse.getRegisteredStudentsInfo());
         System.out.println("Registered students for Literature:\n" + literatureCourse.getRegisteredStudentsInfo());
-        System.out.println("Registered students for Chemistry:\n" + registrationSystem.getAllCourses().get(3).getRegisteredStudentsInfo());
-        System.out.println("Registered students for Programming:\n" + registrationSystem.getAllCourses().get(4).getRegisteredStudentsInfo());
+        System.out.println("Registered students for Chemistry:\n" + chemistryCourse.getRegisteredStudentsInfo());
+        System.out.println("Registered students for Programming:\n" + programmingCourse.getRegisteredStudentsInfo());
 
         // Additional checks for lecturers and practitioners - should fail
         System.out.println("\nAdditional checks (should fail):");
@@ -86,5 +90,13 @@ public class Main {
         // Practitioner David tries to add a new course without being logged in (should fail)
         david.logout();
         david.addNewCourse("Biology", 601, 15, UpdateType.SEMINAR_COURSE);
+
+        // Try to register Alice to a full course (should fail)
+        alice.addToCart(physicsCourse);
+        alice.getShoppingCart().checkout();
+
+        // Display the waiting list for a specific course
+        System.out.println("Waiting list for Physics course:\n" + physicsCourse.getWaitingList());
+
     }
 }
